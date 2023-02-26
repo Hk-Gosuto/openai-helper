@@ -1,0 +1,17 @@
+{
+  "Index": {
+    "title": "OpenAI Helper",
+    "step0": "粘贴你的 OpenAI API Key",
+    "openaiApiKeyPlaceholder": "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "step1": "简述一下你的问题",
+    "step2": "选择AI角色",
+    "simplifierButton": "那你能帮帮我吗",
+    "simplifiedContent": "回答",
+    "privacyPolicy1": "请勿上传过于隐私的工作内容，详情查看",
+    "privacyPolicy2": "《隐私声明》",
+    "pasteButton": "粘贴",
+    "clearButton": "清空",
+    "API_KEY_NULL_ERROR": "API key不能为空",
+    "CONTENT_NULL_ERROR": "问题不能为空"
+  }
+}
