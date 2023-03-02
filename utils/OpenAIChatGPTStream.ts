@@ -4,9 +4,9 @@ import {
   ReconnectInterval,
 } from "eventsource-parser";
 
-export interface OpenAIStreamPayload {
+export interface OpenAIChatGPTStreamPayload {
   model: string;
-  prompt: string;
+  messages: OpenAIChatGPTMessagePayload[];
   temperature: number;
   top_p: number;
   frequency_penalty: number;
@@ -17,7 +17,12 @@ export interface OpenAIStreamPayload {
   api_key?: string;
 }
 
-export async function OpenAIStream(payload: OpenAIStreamPayload) {
+export interface OpenAIChatGPTMessagePayload {
+  role: string;
+  content: string;
+}
+
+export async function OpenAIChatGPTStream(payload: OpenAIChatGPTStreamPayload) {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
   function randomNumberInRange(min, max) {
@@ -45,10 +50,11 @@ export async function OpenAIStream(payload: OpenAIStreamPayload) {
   if (!checkString(openai_api_key)) {
     throw new Error('OpenAI API Key Format Error')
   }
-  console.log(payload.prompt)
-  delete payload.api_key
 
-  const res = await fetch("https://api.openai.com/v1/completions", {
+  delete payload.api_key
+  console.log(JSON.stringify(payload));
+
+  const res = await fetch("https://api.openai.com/v1/chat/completions", {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${openai_api_key ?? ""}`,
@@ -56,6 +62,7 @@ export async function OpenAIStream(payload: OpenAIStreamPayload) {
     method: "POST",
     body: JSON.stringify(payload),
   });
+
 
   const stream = new ReadableStream({
     async start(controller) {
@@ -70,12 +77,13 @@ export async function OpenAIStream(payload: OpenAIStreamPayload) {
           }
           try {
             const json = JSON.parse(data);
-            const text = json.choices[0].text;
-            if (counter < 2 && (text.match(/\n/) || []).length) {
+            // console.log(json);
+            const text = json.choices[0].delta.content;
+            if (!text || counter < 2 && (text.match(/\n/) || []).length) {
               // this is a prefix character (i.e., "\n\n"), do nothing
               return;
             }
-            console.log(text);
+            // console.log(text);
             const queue = encoder.encode(text);
             controller.enqueue(queue);
             counter++;

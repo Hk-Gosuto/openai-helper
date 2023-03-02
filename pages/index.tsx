@@ -119,7 +119,7 @@ const Home: NextPage = () => {
         <h1 className="sm:text-4xl text-2xl max-w-1xl font-bold text-slate-900">
           让 <span className="bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 bg-clip-text text-transparent">AI</span> 来回答你的 <span className="bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 bg-clip-text text-transparent">任意</span> 问题
         </h1>
-        <p className="text-slate-500 my-5">基于OpenAI GTP-3 (text-davinci-003) 模型实现</p>
+        <p className="text-slate-500 my-5">基于OpenAI GPT-3.5(gpt-3.5-turbo) 模型实现</p>
         <div className="max-w-xl w-full">
           {useUserKey && (
             <>
